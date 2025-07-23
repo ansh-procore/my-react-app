@@ -1,0 +1,122 @@
+.task-details-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+}
+
+.task-details-card {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-details-card h1 {
+  font-size: 32px;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.task-details-card p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.task-details-card p strong {
+  color: #333;
+}
+
+.task-details-card .status-badge {
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Re-using status badge styles from TaskTable.css for consistency */
+.status-badge.initiated {
+  background-color: #e3f2fd;
+  color: #1976d2;
+}
+
+.status-badge.in-progress {
+  background-color: #fff3e0;
+  color: #f57c00;
+}
+
+.status-badge.completed {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+/* Styles for loading and error states */
+.loading-container, .error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-container p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.back-button, .retry-button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.back-button:hover, .retry-button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .task-details-card {
+    padding: 20px;
+  }
+  
+  .task-details-card h1 {
+    font-size: 24px;
+  }
+  
+  .task-details-card p {
+    font-size: 14px;
+  }
+}

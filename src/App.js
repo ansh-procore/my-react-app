@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Navigation from './components/Navigation';
+import Dashboard from './pages/Dashboard';
+import TasksPage from './pages/TasksPage';
+import About from './pages/About';
+import TaskDetailsPage from './pages/TaskDetailsPage';
+import TaskEditPage from './pages/TaskEditPage';
+import TaskCreatePage from './pages/TaskCreatePage'; // Import the new TaskCreatePage component
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className='app-container'>
+        <Navigation />
+        <main className='main-content'>
+          <Routes>
+            <Route path='/' element={<Dashboard />} />
+            <Route path="/tasks" element={<TasksPage />} />
+            <Route path="/tasks/details/:id" element={<TaskDetailsPage />} />
+            <Route path="/tasks/edit/:id" element={<TaskEditPage />} />
+            <Route path="/tasks/create" element={<TaskCreatePage />} /> {/* New route for task creation */}
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 

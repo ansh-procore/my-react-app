@@ -1,0 +1,133 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 450px; /* Adjusted width to match screenshot */
+  animation: fadeInScale 0.2s ease-out forwards;
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 15px; /* Added padding to align with screenshot */
+  border-bottom: 1px solid #eee; /* Light line below header */
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.modal-icon {
+  font-size: 24px; /* Adjust size of the warning icon */
+  margin-right: 10px;
+  color: #ffc107; /* Warning color */
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  line-height: 1;
+}
+
+.modal-close-button:hover {
+  color: #555;
+}
+
+.modal-body {
+  margin-bottom: 25px;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 15px; /* Padding for buttons */
+  border-top: 1px solid #eee; /* Light line above footer */
+}
+
+.modal-cancel-button,
+.modal-delete-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px; /* Slightly more rounded */
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.modal-cancel-button {
+  background-color: #e9ecef; /* Light gray for cancel */
+  color: #343a40;
+}
+
+.modal-cancel-button:hover {
+  background-color: #dee2e6;
+}
+
+.modal-delete-button {
+  background-color: #dc3545; /* Red for delete */
+  color: white;
+}
+
+.modal-delete-button:hover {
+  background-color: #c82333;
+}
+
+@media (max-width: 500px) {
+  .modal-content {
+    margin: 0 15px;
+    padding: 20px;
+  }
+  .modal-header h3 {
+    font-size: 18px;
+  }
+  .modal-body p {
+    font-size: 14px;
+  }
+  .modal-cancel-button,
+  .modal-delete-button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
