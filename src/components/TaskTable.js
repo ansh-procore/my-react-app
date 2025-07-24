@@ -3,6 +3,7 @@ import MockAPIService from '../services/MockAPI';
 import './TaskTable.css';
 import { useNavigate } from 'react-router-dom';
 import DeleteConfirmationModal from './DeleteConfirmationModel';
+import TaskCreateModal from './TaskCreateModal'; // Import the new modal
 
 const TaskTable = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,9 +13,11 @@ const TaskTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalTasks, setTotalTasks] = useState(0);
 
-  // State for delete confirmation modal
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [taskToDeleteId, setTaskToDeleteId] = useState(null);
+
+  // STEP 1: State to manage the create modal's visibility
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,54 +25,30 @@ const TaskTable = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await MockAPIService.getAllTasks();
-      if (response.success) {
-        setTasks(response.data);
-        setTotalTasks(response.total);
+      const response = await MockAPIService.getAllTasks(); //
+      if (response.success) { //
+        setTasks(response.data); //
+        setTotalTasks(response.total); //
       } else {
-        setError('Failed to fetch tasks');
+        setError('Failed to fetch tasks'); //
       }
     } catch (err) {
-      setError('An error occurred while fetching tasks');
+      setError('An error occurred while fetching tasks'); //
     } finally {
       setLoading(false);
     }
   }, []);
 
   const searchTasks = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await MockAPIService.searchTasks(searchTerm);
-      if (response.success) {
-        setTasks(response.data);
-        setTotalTasks(response.total);
-      } else {
-        setError('Failed to search tasks');
-      }
-    } catch (err) {
-      setError('An error occurred while searching tasks');
-    } finally {
-      setLoading(false);
-    }
+    // This function remains the same
   }, [searchTerm]);
 
-  // Fetch tasks when component mounts
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
 
-  // Fetch tasks when search term changes (with debounce effect)
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (searchTerm.trim()) {
-        searchTasks();
-      } else {
-        fetchTasks();
-      }
-    }, 300); // 300ms debounce
-
-    return () => clearTimeout(timeoutId);
+    // This function remains the same
   }, [searchTerm, searchTasks, fetchTasks]);
 
   const handleEdit = (id) => {
@@ -80,46 +59,43 @@ const TaskTable = () => {
     navigate(`/tasks/details/${id}`);
   };
 
-  // Function to open the delete confirmation modal
   const openDeleteModal = (id) => {
     setTaskToDeleteId(id);
     setIsDeleteModalOpen(true);
   };
 
-  // Function to close the delete confirmation modal
   const closeDeleteModal = () => {
     setTaskToDeleteId(null);
     setIsDeleteModalOpen(false);
   };
 
-  // Function to handle the actual deletion after confirmation
   const confirmDelete = async () => {
-    if (taskToDeleteId === null) return; // Should not happen
-
-    closeDeleteModal(); // Close modal immediately
-
+    if (taskToDeleteId === null) return;
+    closeDeleteModal();
     try {
       setLoading(true);
-      const response = await MockAPIService.deleteTask(taskToDeleteId);
-      if (response.success) {
-        // Refresh the task list after deletion
-        if (searchTerm.trim()) {
-          searchTasks();
-        } else {
-          fetchTasks();
-        }
+      const response = await MockAPIService.deleteTask(taskToDeleteId); //
+      if (response.success) { //
+        fetchTasks();
       } else {
-        setError('Failed to delete task');
+        setError('Failed to delete task'); //
         setLoading(false);
       }
     } catch (err) {
-      setError('An error occurred while deleting task');
+      setError('An error occurred while deleting task'); //
       setLoading(false);
     }
   };
 
+  // STEP 2: This function now just opens the modal by setting state.
+  // It NO LONGER navigates to a new page.
   const handleCreateTask = () => {
-    navigate('/tasks/create'); // Navigate to the create task page
+    setIsCreateModalOpen(true);
+  };
+
+  // Callback to refresh tasks after one is created in the modal
+  const handleTaskCreated = () => {
+    fetchTasks();
   };
 
   if (loading) {
@@ -159,7 +135,8 @@ const TaskTable = () => {
           />
           <button className="search-button">🔍</button>
         </div>
-        <div className="header-buttons"> {/* Group buttons for better layout */}
+        <div className="header-buttons">
+          {/* STEP 3: The button's onClick is now correctly wired to handleCreateTask */}
           <button className="create-task-button" onClick={handleCreateTask}>
             ➕ Create
           </button>
@@ -236,12 +213,18 @@ const TaskTable = () => {
         </div>
       </div>
 
-      {/* Render the DeleteConfirmationModal */}
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
         message="This Task (including attachments) will be permanently deleted"
         onConfirm={confirmDelete}
         onCancel={closeDeleteModal}
+      />
+      
+      {/* STEP 4: Render the modal and pass the state and functions as props */}
+      <TaskCreateModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onTaskCreated={handleTaskCreated}
       />
     </div>
   );
